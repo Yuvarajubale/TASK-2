@@ -1,0 +1,113 @@
+package task_2;
+
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import javax.swing.AbstractButton;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
+
+//10. Adding a graphical user interface (GUI) for a more user-friendly experience.
+
+public class gui {
+
+	    public void WordStatisticsGUI() {
+	        // Create the main frame
+	        JFrame frame = new JFrame("Word Statistics");
+
+	        // Create a panel for input and result
+	        JPanel panel = new JPanel();
+	        panel.setLayout(new GridLayout(2, 1));
+
+	        // Create input text area
+	        JTextArea textArea = new JTextArea(10, 40);
+	        JScrollPane scrollPane = new JScrollPane(textArea);
+
+	        // Create a button to perform word statistics
+	        JButton analyzeButton = new JButton("Analyze");
+	        analyzeButton.addActionListener((ActionListener) new ActionListener() {
+	            public void actionPerformed1(ActionEvent e) {
+	                performWordStatistics();
+	            }
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+	        });
+
+	        // Create result text area
+	        JTextArea resultArea = new JTextArea(10, 40);
+	        resultArea.setEditable(false);
+	        JScrollPane resultScrollPane = new JScrollPane(resultArea);
+
+	        panel.add(scrollPane);
+	        panel.add(analyzeButton);
+
+	        // Add the panel to the frame
+	        frame.getContentPane().add(panel, BorderLayout.NORTH);
+	        frame.getContentPane().add(resultScrollPane, BorderLayout.SOUTH);
+
+	        // Configure frame
+	        frame.pack();
+	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	        frame.setVisible(true);
+	    }
+
+	    private void performWordStatistics() {
+	        AbstractButton textArea = null;
+			String inputText = textArea.getText();
+
+	        AbstractButton resultArea = null;
+			if (inputText.trim().isEmpty()) {
+	            resultArea.setText("Input is empty.");
+	            return;
+	        }
+
+	        // Create a Set to store unique words
+	        Set<String> uniqueWords = new HashSet<>();
+
+	        // Create a Map to store word frequencies
+	        Map<String, Integer> wordFrequency = new HashMap<>();
+
+	        String[] words = inputText.split("\\s+"); // Split by spaces
+
+	        for (String word : words) {
+	            word = word.replaceAll("[^a-zA-Z]", "").toLowerCase();
+
+	            if (!word.isEmpty()) {
+	                uniqueWords.add(word);
+	                wordFrequency.put(word, wordFrequency.getOrDefault(word, 0) + 1);
+	            }
+	        }
+
+	        // Generate result text
+	        StringBuilder resultText = new StringBuilder();
+	        resultText.append("Number of unique words: ").append(uniqueWords.size()).append("\n\n");
+	        resultText.append("Word frequency:\n");
+	        for (Map.Entry<String, Integer> entry : wordFrequency.entrySet()) {
+	            resultText.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+	        }
+
+	        resultArea.setText(resultText.toString());
+	    }
+
+	    public static void main(String[] args) {
+	        SwingUtilities.invokeLater(new Runnable() {
+	            public void run() {
+	                new WordStatisticsGUI();
+	            }
+	        });
+	    }
+	}
