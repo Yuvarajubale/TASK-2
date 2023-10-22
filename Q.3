@@ -1,0 +1,66 @@
+package task_2;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+//3. Split the string into an array of words using space or punctuation as delimiters.
+
+public class split_string {
+
+	    public static void main(String[] args) {
+	        Scanner scanner = new Scanner(System.in);
+	        String input = "";
+
+	        System.out.println("Enter '1' to input text, or '2' to input a file:");
+	        int choice = scanner.nextInt();
+	        scanner.nextLine();  // Consume the newline character
+
+	        if (choice == 1) {
+	            System.out.println("Enter the text: ");
+	            input = scanner.nextLine();
+	        } else if (choice == 2) {
+	            System.out.println("Enter the file name: ");
+	            String fileName = scanner.nextLine();
+	            try {
+	                input = readTextFromFile(fileName);
+	            } catch (FileNotFoundException e) {
+	                System.err.println("File not found.");
+	                System.exit(1);
+	            }
+	        } else {
+	            System.err.println("Invalid choice. Please enter '1' or '2'.");
+	            System.exit(1);
+	        }
+
+	        String[] words = splitStringIntoWords(input);
+	        System.out.println("Words in the input:");
+	        for (String word : words) {
+	            System.out.println(word);
+	        }
+	    }
+
+	    public static String readTextFromFile(String fileName) throws FileNotFoundException {
+	        StringBuilder text = new StringBuilder();
+	        File file = new File(fileName);
+	        Scanner fileScanner = new Scanner(file);
+
+	        while (fileScanner.hasNextLine()) {
+	            text.append(fileScanner.nextLine()).append("\n");
+	        }
+
+	        fileScanner.close();
+	        return text.toString();
+	    }
+
+	    public static String[] splitStringIntoWords(String text) {
+	        if (text == null || text.isEmpty()) {
+	            return new String[0];
+	        }
+
+	        // Split the string into words using space and punctuation as delimiters
+	        String[] words = text.split("[\\s\\p{Punct}]+");
+	        return words;
+	    }
+	}
+
