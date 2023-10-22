@@ -1,0 +1,71 @@
+package task_2;
+
+import java.awt.Button;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+//4. Initialize a counter variable to keep track of the number of words.
+
+public class valid_ip {
+	
+	    public static void main(String[] args) {
+	        try {
+	            // Read the text from a file or standard input
+	            BufferedReader reader = new BufferedReader(new FileReader("input.txt"));
+	            String line;
+	            StringBuilder textBuilder = new StringBuilder();
+
+	            while ((line = reader.readLine()) != null) {
+	                textBuilder.append(line).append("\n");
+	            }
+
+	            reader.close();
+	            
+	            String text = textBuilder.toString().trim();
+	            
+	            if (text.isEmpty()) {
+	                System.out.println("Input is empty.");
+	                return;
+	            }
+	            
+	            // Create a Set to store unique words
+	            Set<String> uniqueWords = new HashSet<>();
+	            
+	            // Create a Map to store word frequencies
+	            Map<String, Integer> wordFrequency = new HashMap<>();
+	            
+	            String[] words = text.split("\\s+"); // Split by spaces
+
+	            for (String word : words) {
+	                // Remove punctuation and convert to lowercase for better word matching
+	                word = word.replaceAll("[^a-zA-Z]", "").toLowerCase();
+	                
+	                if (!word.isEmpty()) {
+	                    // Count unique words
+	                    uniqueWords.add(word);
+	                    
+	                    // Count word frequency
+	                    wordFrequency.put(word, wordFrequency.getOrDefault(word, 0) + 1);
+	                }
+	            }
+	            
+	            // Print statistics
+	            System.out.println("Number of unique words: " + uniqueWords.size());
+	            
+	            System.out.println("Word frequency:");
+	            for (Map.Entry<String, Integer> entry : wordFrequency.entrySet()) {
+	                System.out.println(entry.getKey() + ": " + entry.getValue());
+	            }
+	        } catch (FileNotFoundException e) {
+	            System.err.println("File not found: " + e.getMessage());
+	        } catch (IOException e) {
+	            System.err.println("File error: " + e.getMessage());
+	        }
+	    }
+	}
